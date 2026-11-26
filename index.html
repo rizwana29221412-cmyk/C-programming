@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedCare | Pharmacy Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <span class="brand-symbol">✚</span> MedCare
+            <small>PHARMACY MANAGEMENT</small>
+        </div>
+
+        <div class="nav-label">WORKSPACE</div>
+
+        <nav>
+            <button class="nav-item active" data-page="dashboard">▦ Dashboard</button>
+            <button class="nav-item" data-page="medicines">▤ Medicine Inventory</button>
+            <button class="nav-item" data-page="billing">▣ Billing & Sales</button>
+            <button class="nav-item" data-page="expiry">◷ Expiry Tracking</button>
+            <button class="nav-item" data-page="insights">✧ Smart Insights</button>
+            <button class="nav-item" data-page="reports">▥ Reports</button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="online-dot"></div>
+            Offline Local System
+            <small>Data stored on this computer</small>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">MEDCARE WORKSPACE</p>
+                <h1 id="page-title">Dashboard</h1>
+                <p class="subtitle">Manage your pharmacy operations efficiently.</p>
+            </div>
+            <div class="date-box">
+                <span>Today</span>
+                <strong id="today-date"></strong>
+            </div>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section class="page active-page" id="dashboard-page">
+
+            <div class="welcome-panel">
+                <div>
+                    <span class="welcome-tag">PHARMACY OVERVIEW</span>
+                    <h2>Good day! Your pharmacy at a glance.</h2>
+                    <p>Monitor inventory, sales, stock availability and expiry risks from one place.</p>
+                </div>
+                <div class="welcome-icon">✚</div>
+            </div>
+
+            <div class="cards">
+                <div class="stat">
+                    <div class="stat-top">
+                        <span>Total Medicines</span>
+                        <span class="stat-icon">▤</span>
+                    </div>
+                    <strong id="total-medicines">0</strong>
+                    <small>Medicine records</small>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-top">
+                        <span>Total Stock Units</span>
+                        <span class="stat-icon">▦</span>
+                    </div>
+                    <strong id="total-stock">0</strong>
+                    <small>Units currently available</small>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-top">
+                        <span>Expiring Soon</span>
+                        <span class="stat-icon warning-icon">◷</span>
+                    </div>
+                    <strong id="expiring-count">0</strong>
+                    <small>Within the next 90 days</small>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-top">
+                        <span>Low Stock</span>
+                        <span class="stat-icon danger-icon">!</span>
+                    </div>
+                    <strong id="low-stock-count">0</strong>
+                    <small>At or below 10 units</small>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+
+                <div class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Recent Inventory</h2>
+                            <p class="panel-subtitle">Latest medicine records</p>
+                        </div>
+                        <button class="text-button" data-goto="medicines">View inventory →</button>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Medicine</th>
+                                    <th>Category</th>
+                                    <th>Stock</th>
+                                    <th>Expiry</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboard-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Inventory Health</h2>
+                            <p class="panel-subtitle">Current stock condition</p>
+                        </div>
+                    </div>
+
+                    <div class="health-row">
+                        <span class="health-dot green-dot"></span>
+                        <span>Healthy stock</span>
+                        <strong id="health-good">0</strong>
+                    </div>
+
+                    <div class="health-row">
+                        <span class="health-dot yellow-dot"></span>
+                        <span>Low stock</span>
+                        <strong id="health-low">0</strong>
+                    </div>
+
+                    <div class="health-row">
+                        <span class="health-dot orange-dot"></span>
+                        <span>Expiring soon</span>
+                        <strong id="health-expiring">0</strong>
+                    </div>
+
+                    <div class="health-row">
+                        <span class="health-dot red-dot"></span>
+                        <span>Expired</span>
+                        <strong id="health-expired">0</strong>
+                    </div>
+
+                    <div class="insight-shortcut">
+                        <strong>Need attention?</strong>
+                        <p>Open Smart Insights to view reorder recommendations and medicine risk priorities.</p>
+                        <button class="primary full-button" data-goto="insights">View Smart Insights</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Sales Overview</h2>
+                        <p class="panel-subtitle">Recent billing activity</p>
+                    </div>
+                    <button class="text-button" data-goto="billing">Open billing →</button>
+                </div>
+
+                <div id="sales-chart" class="sales-chart"></div>
+                <p id="chart-empty" class="empty-note">No sales data available yet.</p>
+            </div>
+
+            <div class="panel demo-panel">
+                <div>
+                    <h2>Demo Inventory Setup</h2>
+                    <p class="panel-subtitle">
+                        Load illustrative medicine records and sample bills to explore the application.
+                    </p>
+                    <small>Only works when the database has no medicine or sales records.</small>
+                </div>
+                <button class="secondary" id="load-demo-data">Load Demo Data</button>
+            </div>
+
+        </section>
+
+        <!-- MEDICINE INVENTORY -->
+        <section class="page" id="medicines-page">
+
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Medicine Inventory</h2>
+                        <p class="panel-subtitle">Add, update, search and manage medicines.</p>
+                    </div>
+                    <button class="primary" id="show-medicine-form">+ Add Medicine</button>
+                </div>
+
+                <input
+                    id="medicine-search"
+                    class="search"
+                    placeholder="Search medicine, category or supplier..."
+                >
+
+                <div id="medicine-form-panel" class="form-panel" hidden>
+                    <h2 id="medicine-form-title">Add New Medicine</h2>
+
+                    <form id="medicine-form">
+                        <input type="hidden" id="edit-medicine-id">
+
+                        <div class="form-grid">
+                            <label>
+                                Medicine name
+                                <input id="form-name" placeholder="e.g. Paracetamol 500 mg" required>
+                            </label>
+
+                            <label>
+                                Category
+                                <select id="form-batch" required>
+                                    <option value="">Select category</option>
+                                    <option>Tablet</option>
+                                    <option>Capsule</option>
+                                    <option>Syrup</option>
+                                    <option>Injection</option>
+                                    <option>Cream</option>
+                                    <option>Ointment</option>
+                                    <option>Supplement</option>
+                                    <option>Medical Supply</option>
+                                    <option>Other</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                Quantity
+                                <input id="form-quantity" type="number" min="0" required>
+                            </label>
+
+                            <label>
+                                Selling price (₹)
+                                <input id="form-price" type="number" min="0" step="0.01" required>
+                            </label>
+
+                            <label>
+                                Expiry date
+                                <input id="form-expiry" type="date" required>
+                            </label>
+
+                            <label>
+                                Supplier
+                                <input id="form-supplier" placeholder="Supplier name">
+                            </label>
+                        </div>
+
+                        <div class="actions">
+                            <button class="primary" type="submit">Save Medicine</button>
+                            <button class="secondary" type="button" id="cancel-medicine">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Medicine</th>
+                                <th>Category</th>
+                                <th>Stock</th>
+                                <th>Price</th>
+                                <th>Expiry</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="medicine-table"></tbody>
+                    </table>
+                </div>
+
+                <p class="muted" id="record-count">Showing 0 medicines</p>
+            </div>
+        </section>
+
+        <!-- BILLING -->
+        <section class="page" id="billing-page">
+
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Create New Bill</h2>
+                        <p class="panel-subtitle">Select medicines and prepare a sale.</p>
+                    </div>
+                    <span class="bill-label">NEW TRANSACTION</span>
+                </div>
+
+                <div class="bill-controls">
+                    <label>
+                        Select medicine
+                        <select id="bill-medicine"></select>
+                    </label>
+
+                    <label>
+                        Quantity
+                        <input id="bill-quantity" type="number" min="1" value="1">
+                    </label>
+
+                    <button class="primary" id="add-to-bill">Add to Bill</button>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Medicine</th>
+                                <th>Qty</th>
+                                <th>Unit Price</th>
+                                <th>Subtotal</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bill-table"></tbody>
+                    </table>
+                </div>
+
+                <div class="bill-bottom">
+                    <div>
+                        <span class="muted">Bill total</span>
+                        <strong id="bill-total">₹0.00</strong>
+                    </div>
+
+                    <div class="bill-actions">
+                        <button class="secondary" id="clear-bill">Clear Bill</button>
+                        <button class="primary" id="complete-bill">Complete Sale</button>
+                    </div>
+                </div>
+
+                <p id="bill-message" class="message"></p>
+            </div>
+
+            <div class="panel">
+                <h2>Sales History</h2>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Bill Number</th>
+                                <th>Date & Time</th>
+                                <th>Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-history-table"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- EXPIRY TRACKING -->
+        <section class="page" id="expiry-page">
+
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Expiry Monitoring</h2>
+                        <p class="panel-subtitle">Track expired and near-expiry inventory.</p>
+                    </div>
+                </div>
+
+                <div class="cards compact-cards">
+                    <div class="stat">
+                        <span>Expired</span>
+                        <strong id="expired-total">0</strong>
+                    </div>
+                    <div class="stat">
+                        <span>Within 30 Days</span>
+                        <strong id="expiry-30">0</strong>
+                    </div>
+                    <div class="stat">
+                        <span>Within 90 Days</span>
+                        <strong id="expiry-90">0</strong>
+                    </div>
+                    <div class="stat">
+                        <span>Expiry Risk Value</span>
+                        <strong id="expiry-risk">₹0</strong>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Medicine</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Expiry Date</th>
+                                <th>Days Remaining</th>
+                                <th>Risk Status</th>
+                                <th>Stock Value</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expiry-table"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SMART INSIGHTS -->
+        <section class="page" id="insights-page">
+
+            <div class="welcome-panel insight-hero">
+                <div>
+                    <span class="welcome-tag">DECISION SUPPORT MODULE</span>
+                    <h2>Smart Pharmacy Intelligence</h2>
+                    <p>Demand-based stock recommendations and expiry-risk prioritisation.</p>
+                </div>
+                <div class="welcome-icon">✧</div>
+            </div>
+
+            <div class="cards">
+                <div class="stat">
+                    <span>Reorder Suggestions</span>
+                    <strong id="insight-reorder-count">0</strong>
+                    <small>Medicines requiring attention</small>
+                </div>
+                <div class="stat">
+                    <span>High Priority</span>
+                    <strong id="insight-high-count">0</strong>
+                    <small>Urgent inventory risks</small>
+                </div>
+                <div class="stat">
+                    <span>30-Day Units Sold</span>
+                    <strong id="insight-units-sold">0</strong>
+                    <small>Based on recorded sales</small>
+                </div>
+                <div class="stat">
+                    <span>Potential Expiry Loss</span>
+                    <strong id="insight-expiry-value">₹0</strong>
+                    <small>Current stock value at risk</small>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Intelligent Reorder Recommendations</h2>
+                        <p class="panel-subtitle">
+                            Uses 30-day sales velocity and a 21-day target stock cover.
+                        </p>
+                    </div>
+                    <span class="bill-label">DEMAND ANALYSIS</span>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Medicine</th>
+                                <th>Current Stock</th>
+                                <th>Sold in 30 Days</th>
+                                <th>Avg. Daily Demand</th>
+                                <th>Stock Cover</th>
+                                <th>Suggested Order</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reorder-table"></tbody>
+                    </table>
+                </div>
+                <p class="muted" id="reorder-note"></p>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Medicine Priority Ranking</h2>
+                        <p class="panel-subtitle">
+                            Combines low stock, demand and expiry risk into a transparent priority score.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Medicine</th>
+                                <th>Priority Score</th>
+                                <th>Expiry Risk</th>
+                                <th>Stock Condition</th>
+                                <th>Recommended Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="priority-table"></tbody>
+                    </table>
+                </div>
+                <p class="muted">
+                    Priority score is a rule-based inventory indicator, not a clinical prediction or validated forecasting model.
+                </p>
+            </div>
+        </section>
+
+        <!-- REPORTS -->
+        <section class="page" id="reports-page">
+
+            <div class="cards">
+                <div class="stat">
+                    <span>Medicine Records</span>
+                    <strong id="report-medicines">0</strong>
+                </div>
+                <div class="stat">
+                    <span>Stock Units</span>
+                    <strong id="report-stock">0</strong>
+                </div>
+                <div class="stat">
+                    <span>Sales Count</span>
+                    <strong id="report-sales-count">0</strong>
+                </div>
+                <div class="stat">
+                    <span>Total Sales Value</span>
+                    <strong id="report-sales-value">₹0.00</strong>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Inventory Summary</h2>
+                <div class="summary-list">
+                    <p>Medicine records <strong id="report-records">0</strong></p>
+                    <p>Low-stock medicines <strong id="report-low">0</strong></p>
+                    <p>Expiring medicines <strong id="report-expiring">0</strong></p>
+                    <p>Expired medicines <strong id="report-expired">0</strong></p>
+                </div>
+                <button class="primary" id="print-report">Print Report</button>
+            </div>
+
+            <div class="panel">
+                <h2>Sales Summary</h2>
+                <div class="summary-list">
+                    <p>Today's sales <strong id="daily-sales-value">₹0.00</strong></p>
+                    <p>Today's bills <strong id="daily-sales-count">0</strong></p>
+                    <p>This month's sales <strong id="monthly-sales-value">₹0.00</strong></p>
+                    <p>This month's bills <strong id="monthly-sales-count">0</strong></p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Suggested Reorder List</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Medicine</th>
+                                <th>Current Stock</th>
+                                <th>Suggested Quantity</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody id="report-reorder-table"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <button class="primary" id="print-full-report">Print Full Report</button>
+
+        </section>
+
+        <footer>
+            MedCare Pharmacy Management System <span>•</span> Offline Inventory & Billing
+        </footer>
+
+    </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
